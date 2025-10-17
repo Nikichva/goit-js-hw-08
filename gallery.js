@@ -68,16 +68,6 @@ const images = [
 
 const gallery = document.querySelector(".gallery");
 
-gallery.addEventListener("click", openModal);
-
-function openModal(event) {
-  if (event.target.nodeName !== "IMG") {
-    return; // użytkownik kliknął między "li"
-  }
-  event.preventDefault();
-  console.log(event.target.getAttribute("data-source"));
-}
-
 function createGalleryMarkup(images, gallery) {
   images.forEach(({ preview, original, description }) => {
     gallery.innerHTML += `
@@ -97,12 +87,19 @@ function createGalleryMarkup(images, gallery) {
 
 createGalleryMarkup(images, gallery);
 
-document.querySelector("button.image").onclick = () => {
+gallery.addEventListener("click", openModal);
+
+function openModal(event) {
+  if (event.target.nodeName !== "IMG") {
+    return; // użytkownik kliknął między "li"
+  }
+  event.preventDefault();
+  const modalImageLink = event.target.getAttribute("data-source");
   basicLightbox
     .create(
       `
-		<img width="1400" height="900" src="https://placehold.it/1400x900">
-	`
+        <img width="1400" height="900" src="${modalImageLink}">
+        `
     )
     .show();
-};
+}
