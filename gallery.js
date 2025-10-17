@@ -75,7 +75,7 @@ function openModal(event) {
     return; // użytkownik kliknął między "li"
   }
   event.preventDefault();
-  console.log(event.target);
+  console.log(event.target.getAttribute("data-source"));
 }
 
 function createGalleryMarkup(images, gallery) {
