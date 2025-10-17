@@ -91,15 +91,23 @@ gallery.addEventListener("click", openModal);
 
 function openModal(event) {
   if (event.target.nodeName !== "IMG") {
-    return; // użytkownik kliknął między "li"
+    return; // user clicked beetwen images
   }
   event.preventDefault();
   const modalImageLink = event.target.getAttribute("data-source");
-  basicLightbox
-    .create(
-      `
+  const instance = basicLightbox.create(
+    `
         <img width="1400" height="900" src="${modalImageLink}">
         `
-    )
-    .show();
+  );
+  instance.show();
+
+  if (basicLightbox.visible()) {
+    const onEscKeydown = (event) => {
+      if (event.key !== "Escape") return;
+      instance.close();
+      document.removeEventListener("keydown", onEscKeydown);
+    };
+    document.addEventListener("keydown", onEscKeydown);
+  }
 }
